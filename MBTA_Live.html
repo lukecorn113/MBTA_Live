@@ -1,39 +1,1895 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <head>
+    <link rel="manifest" href="/manifest.json" />
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
     <title>MBTA Live</title>
-    
+
     <!-- Mobile-compatible PNG Data URI Icon for iOS / Android Home Screen -->
-    <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAA7DAAAOwwHHb6hkAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3JnM508lAAAAWNJREFUWIXtlz1LAkEQhT9kF7AwtrYQQkQUf4CNglaCiP+AiI2NoJ3YmIg/gFWCtna2NhZCK4shsTCCDYkIAs7g7p1y2N1kM7Oz593Mzu7s0t2N8i9rW93sB7Y2+j5J36F4u0F6XN98RuvFfgq6Dvg7nL0h8T3/a2L8FjJmYtTfK/XN3l37e6gY4N21O643Y27q56E/a+C3P67cPyNn3u49B4N4wWn6L2r0mJjI8lS+lIeX0pI4+v3C2B4z6n3lW1sH8A96FwB2Gj0h8X5HhK88K1+x1vjA0f0F8+J5eX8Q4M5C4bS0C6zC1w1kQfW6zEwI0G2a+9CgEwYJjX4F38c8v2+p03cT3A58Q4N5qWwM3JqWw0zQO2w7VbF/wA+1F8gZ6h4K/QfH1Jg38Y6fW3DAP0Qv2K8gV2y3/J3wX3f5H89Jg16N4J1G1j2G2f+X2L/558YJjK6vX3P+jKj2vQ6XfV+Jv6f+vP+Y39f1c8jXv8AAAAASUVORK5CYII=">
-    <link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAA7DAAAOwwHHb6hkAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3JnM508lAAAAWNJREFUWIXtlz1LAkEQhT9kF7AwtrYQQkQUf4CNglaCiP+AiI2NoJ3YmIg/gFWCtna2NhZCK4shsTCCDYkIAs7g7p1y2N1kM7Oz593Mzu7s0t2N8i9rW93sB7Y2+j5J36F4u0F6XN98RuvFfgq6Dvg7nL0h8T3/a2L8FjJmYtTfK/XN3l37e6gY4N21O643Y27q56E/a+C3P67cPyNn3u49B4N4wWn6L2r0mJjI8lS+lIeX0pI4+v3C2B4z6n3lW1sH8A96FwB2Gj0h8X5HhK88K1+x1vjA0f0F8+J5eX8Q4M5C4bS0C6zC1w1kQfW6zEwI0G2a+9CgEwYJjX4F38c8v2+p03cT3A58Q4N5qWwM3JqWw0zQO2w7VbF/wA+1F8gZ6h4K/QfH1Jg38Y6fW3DAP0Qv2K8gV2y3/J3wX3f5H89Jg16N4J1G1j2G2f+X2L/558YJjK6vX3P+jKj2vQ6XfV+Jv6f+vP+Y39f1c8jXv8AAAAASUVORK5CYII=">
+    <link
+      rel="icon"
+      type="image/png"
+      href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAA7DAAAOwwHHb6hkAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3JnM508lAAAAWNJREFUWIXtlz1LAkEQhT9kF7AwtrYQQkQUf4CNglaCiP+AiI2NoJ3YmIg/gFWCtna2NhZCK4shsTCCDYkIAs7g7p1y2N1kM7Oz593Mzu7s0t2N8i9rW93sB7Y2+j5J36F4u0F6XN98RuvFfgq6Dvg7nL0h8T3/a2L8FjJmYtTfK/XN3l37e6gY4N21O643Y27q56E/a+C3P67cPyNn3u49B4N4wWn6L2r0mJjI8lS+lIeX0pI4+v3C2B4z6n3lW1sH8A96FwB2Gj0h8X5HhK88K1+x1vjA0f0F8+J5eX8Q4M5C4bS0C6zC1w1kQfW6zEwI0G2a+9CgEwYJjX4F38c8v2+p03cT3A58Q4N5qWwM3JqWw0zQO2w7VbF/wA+1F8gZ6h4K/QfH1Jg38Y6fW3DAP0Qv2K8gV2y3/J3wX3f5H89Jg16N4J1G1j2G2f+X2L/558YJjK6vX3P+jKj2vQ6XfV+Jv6f+vP+Y39f1c8jXv8AAAAASUVORK5CYII="
+    />
+    <link
+      rel="apple-touch-icon"
+      href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAA7DAAAOwwHHb6hkAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3JnM508lAAAAWNJREFUWIXtlz1LAkEQhT9kF7AwtrYQQkQUf4CNglaCiP+AiI2NoJ3YmIg/gFWCtna2NhZCK4shsTCCDYkIAs7g7p1y2N1kM7Oz593Mzu7s0t2N8i9rW93sB7Y2+j5J36F4u0F6XN98RuvFfgq6Dvg7nL0h8T3/a2L8FjJmYtTfK/XN3l37e6gY4N21O643Y27q56E/a+C3P67cPyNn3u49B4N4wWn6L2r0mJjI8lS+lIeX0pI4+v3C2B4z6n3lW1sH8A96FwB2Gj0h8X5HhK88K1+x1vjA0f0F8+J5eX8Q4M5C4bS0C6zC1w1kQfW6zEwI0G2a+9CgEwYJjX4F38c8v2+p03cT3A58Q4N5qWwM3JqWw0zQO2w7VbF/wA+1F8gZ6h4K/QfH1Jg38Y6fW3DAP0Qv2K8gV2y3/J3wX3f5H89Jg16N4J1G1j2G2f+X2L/558YJjK6vX3P+jKj2vQ6XfV+Jv6f+vP+Y39f1c8jXv8AAAAASUVORK5CYII="
+    />
 
     <!-- Leaflet.js Map Library -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
     <style>
-        :root {
-            --bg-color: #000000;
-            --surface-color: #1C1C1E;
-            --surface-highlight: #2C2C2E;
-            --theme-color: #00843D;
-            --text-main: #FFFFFF;
-            --text-muted: #8E8E93;
-            --alert-red: #FF453A;
-            --warning-yellow: #FFD60A;
-            --warning-orange: #FF9F0A;
+      :root {
+        --bg-color: #000000;
+        --surface-color: #1c1c1e;
+        --surface-highlight: #2c2c2e;
+        --theme-color: #00843d;
+        --text-main: #ffffff;
+        --text-muted: #8e8e93;
+        --alert-red: #ff453a;
+        --warning-yellow: #ffd60a;
+        --warning-orange: #ff9f0a;
+      }
+
+      * {
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      body {
+        background-color: var(--bg-color);
+        color: var(--text-main);
+        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
+          "Segoe UI", Roboto, sans-serif;
+        margin: 0;
+        padding: 0;
+        padding-bottom: 40px;
+      }
+
+      /* Opening Splash Animation Screen */
+      #splash-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: #000000;
+        z-index: 99999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        transition: opacity 0.6s ease, visibility 0.6s ease;
+      }
+      #splash-screen.fade-out {
+        opacity: 0;
+        visibility: hidden;
+      }
+      .splash-train {
+        position: absolute;
+        top: 50%;
+        left: -120px;
+        transform: translateY(-50%);
+        z-index: 10;
+        animation: trainWoosh 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        filter: drop-shadow(0 0 12px rgba(0, 132, 61, 0.6));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      @keyframes trainWoosh {
+        0% {
+          left: -120px;
+        }
+        100% {
+          left: calc(100vw + 120px);
+        }
+      }
+      .splash-content {
+        opacity: 0;
+        transform: scale(0.85);
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        animation: revealLogo 0.5s ease 0.8s forwards;
+      }
+      @keyframes revealLogo {
+        0% {
+          opacity: 0;
+          transform: scale(0.85);
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+      .splash-logo-container {
+        position: relative;
+        display: flex;
+        align-items: center;
+      }
+      .splash-mbta-logo {
+        width: 52px;
+        height: 52px;
+      }
+      .splash-live-dot {
+        position: absolute;
+        top: -4px;
+        right: -4px;
+        width: 14px;
+        height: 14px;
+        background-color: var(--alert-red);
+        border-radius: 50%;
+        border: 2px solid #000;
+        transform: scale(0);
+        animation: popDot 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) 1.1s
+          forwards;
+      }
+      @keyframes popDot {
+        0% {
+          transform: scale(0);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+      .splash-title-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .splash-live-text {
+        font-size: 11px;
+        font-weight: 800;
+        color: var(--alert-red);
+        letter-spacing: 1px;
+        line-height: 1;
+        margin-bottom: 4px;
+      }
+      .splash-title-container h1 {
+        margin: 0;
+        font-size: 26px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        line-height: 1.1;
+        color: #ffffff;
+      }
+
+      /* Top Header */
+      .top-bar {
+        background-color: rgba(28, 28, 30, 0.85);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 22px 20px;
+        border-bottom: 2px solid var(--theme-color);
+        padding-top: calc(env(safe-area-inset-top, 22px) + 10px);
+        transition: border-color 0.3s ease;
+      }
+
+      .header-left {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .logo-container {
+        position: relative;
+        display: flex;
+        align-items: center;
+        overflow: visible;
+      }
+      .mbta-logo {
+        width: 36px;
+        height: 36px;
+      }
+      .live-dot {
+        position: absolute;
+        top: -4px;
+        right: -4px;
+        width: 10px;
+        height: 10px;
+        background-color: var(--alert-red);
+        border-radius: 50%;
+        border: 2px solid #000;
+      }
+
+      .title-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .live-text {
+        font-size: 10px;
+        font-weight: 800;
+        color: var(--alert-red);
+        letter-spacing: 0.8px;
+        line-height: 1;
+        margin-bottom: 3px;
+      }
+      .top-bar h1 {
+        margin: 0;
+        font-size: 20px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        line-height: 1.1;
+      }
+
+      /* Sleek Top Bar Schedule Pill */
+      .schedule-pill {
+        background-color: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: 500;
+        color: #cccccc;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        backdrop-filter: blur(5px);
+      }
+      .schedule-pill span {
+        font-weight: 700;
+        color: var(--text-main);
+      }
+
+      .container {
+        padding: 20px;
+      }
+
+      /* Dropdown */
+      .selector-wrapper {
+        position: relative;
+        margin-bottom: 12px;
+      }
+      select {
+        width: 100%;
+        padding: 16px;
+        border-radius: 14px;
+        background-color: var(--surface-color);
+        color: var(--text-main);
+        border: 2px solid var(--surface-highlight);
+        font-size: 17px;
+        font-weight: 600;
+        appearance: none;
+        outline: none;
+        transition: border-color 0.3s ease;
+      }
+      select:focus {
+        border-color: var(--theme-color);
+      }
+      .selector-wrapper::after {
+        content: "▼";
+        font-size: 12px;
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-muted);
+        pointer-events: none;
+      }
+
+      /* Green Line Sub-Branch Selector */
+      .sub-selector {
+        display: none;
+        gap: 6px;
+        margin-bottom: 20px;
+      }
+      .sub-btn {
+        flex: 1;
+        background-color: var(--surface-color);
+        border: 1px solid var(--surface-highlight);
+        color: var(--text-main);
+        padding: 10px 0;
+        border-radius: 10px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        text-align: center;
+        transition: all 0.2s ease;
+      }
+      .sub-btn.active {
+        background-color: var(--theme-color);
+        border-color: var(--theme-color);
+        color: white;
+        box-shadow: 0 4px 10px rgba(0, 132, 61, 0.4);
+      }
+
+      /* Cards */
+      .card {
+        background-color: var(--surface-color);
+        border-radius: 18px;
+        padding: 20px;
+        margin-bottom: 20px;
+      }
+      h2 {
+        margin-top: 0;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--text-muted);
+        margin-bottom: 16px;
+        font-weight: 600;
+      }
+
+      /* Map & Legend */
+      #map {
+        height: 280px;
+        width: 100%;
+        border-radius: 12px;
+        background-color: var(--surface-highlight);
+        margin-bottom: 15px;
+        z-index: 1;
+      }
+      #map-legend {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        font-size: 13px;
+        color: var(--text-muted);
+      }
+      .legend-section-title {
+        font-weight: 700;
+        color: var(--text-main);
+        font-size: 12px;
+        margin-top: 4px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      .legend-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+      }
+      .legend-item {
+        display: flex;
+        align-items: center;
+      }
+      .legend-dot {
+        width: 12px;
+        height: 12px;
+        margin-right: 6px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+      }
+      .legend-line {
+        width: 24px;
+        height: 4px;
+        margin-right: 6px;
+        background-color: var(--theme-color);
+        border-radius: 2px;
+      }
+
+      /* Segmented Control */
+      .segmented-control {
+        display: flex;
+        background-color: var(--surface-highlight);
+        border-radius: 9px;
+        padding: 2px;
+        margin-bottom: 16px;
+      }
+      .segment-btn {
+        flex: 1;
+        text-align: center;
+        padding: 8px 12px;
+        border-radius: 7px;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text-main);
+        cursor: pointer;
+        transition: background-color 0.2s;
+      }
+      .segment-btn.active {
+        background-color: #636366;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+      }
+
+      /* Arrivals */
+      .prediction {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 0;
+        border-bottom: 1px solid var(--surface-highlight);
+        font-size: 17px;
+      }
+      .prediction:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+      }
+      .time-badge {
+        background-color: var(--theme-color);
+        color: white;
+        padding: 6px 12px;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 15px;
+        transition: background-color 0.3s;
+      }
+
+      /* Crowding */
+      .crowding-meta {
+        display: flex;
+        justify-content: space-between;
+        font-size: 13px;
+        color: var(--text-muted);
+        margin-bottom: 8px;
+        font-weight: 500;
+      }
+      .crowding-track {
+        height: 12px;
+        background-color: var(--surface-highlight);
+        border-radius: 6px;
+        overflow: hidden;
+        margin-bottom: 12px;
+      }
+      .crowding-fill {
+        height: 100%;
+        width: 0%;
+        border-radius: 6px;
+        transition: width 0.6s, background-color 0.6s ease;
+      }
+      .crowding-status {
+        font-size: 15px;
+        font-weight: 500;
+        line-height: 1.4;
+      }
+
+      /* Nested Accordion Alerts Styles */
+      .alert-line-item {
+        background-color: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--surface-highlight);
+        border-radius: 12px;
+        margin-bottom: 10px;
+        overflow: hidden;
+      }
+      .alert-line-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px;
+        cursor: pointer;
+        font-weight: 600;
+      }
+      .alert-line-content {
+        display: none;
+        padding: 0 10px 10px 10px;
+      }
+      .alert-line-item.open .alert-line-content {
+        display: block;
+      }
+      .alert-line-item.open .alert-line-header .chevron {
+        transform: rotate(180deg);
+      }
+
+      .alert-branch-item {
+        background-color: rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+        margin-top: 8px;
+        overflow: hidden;
+        border-left: 3px solid var(--theme-color);
+      }
+      .alert-branch-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 600;
+        color: #dddddd;
+      }
+      .alert-branch-content {
+        display: none;
+        padding: 0 10px 10px 10px;
+      }
+      .alert-branch-item.open .alert-branch-content {
+        display: block;
+      }
+      .alert-branch-item.open .alert-branch-header .chevron {
+        transform: rotate(180deg);
+      }
+
+      .alert-box {
+        background-color: rgba(255, 69, 58, 0.08);
+        border-radius: 8px;
+        margin-top: 6px;
+        overflow: hidden;
+      }
+      .alert-box-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 12px;
+        cursor: pointer;
+        font-size: 13px;
+        color: #ffffff;
+      }
+      .alert-box-desc {
+        display: none;
+        padding: 0 12px 12px 12px;
+        font-size: 13px;
+        color: #aaaaaa;
+        line-height: 1.4;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+      }
+      .alert-box.open .alert-box-desc {
+        display: block;
+        padding-top: 8px;
+      }
+      .alert-box.open .alert-box-header .chevron {
+        transform: rotate(180deg);
+      }
+
+      .chevron {
+        color: var(--text-muted);
+        font-size: 12px;
+        transition: transform 0.3s ease;
+      }
+
+      /* Settings & Admin Panel Styles */
+      .settings-card {
+        cursor: pointer;
+        transition: background-color 0.2s ease, transform 0.1s ease;
+      }
+      .settings-card:active {
+        transform: scale(0.98);
+      }
+      .settings-gear-icon {
+        width: 40px;
+        height: 40px;
+        background-color: var(--surface-highlight);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+      }
+      .admin-modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.75);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        z-index: 100000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+      }
+      .admin-modal-overlay.active {
+        opacity: 1;
+        visibility: visible;
+      }
+      .admin-modal-content {
+        background-color: var(--surface-color);
+        border: 1px solid var(--surface-highlight);
+        border-radius: 20px;
+        width: 90%;
+        max-width: 400px;
+        padding: 24px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        transform: scale(0.95);
+        transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+      .admin-modal-overlay.active .admin-modal-content {
+        transform: scale(1);
+      }
+      .admin-modal-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 16px;
+      }
+      .admin-modal-header h3 {
+        margin: 0;
+        font-size: 18px;
+        font-weight: 700;
+        color: white;
+      }
+      .admin-close-btn {
+        background: none;
+        border: none;
+        color: var(--text-muted);
+        font-size: 24px;
+        cursor: pointer;
+        padding: 0;
+        line-height: 1;
+      }
+
+      /* Footer Copyright */
+      .footer-copyright {
+        text-align: center;
+        color: var(--text-muted);
+        font-size: 12px;
+        margin-top: 30px;
+        padding-bottom: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Opening Splash Animation Screen -->
+    <div id="splash-screen">
+      <div class="splash-train">
+        <svg
+          style="width: 48px; height: 48px"
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle cx="50" cy="50" r="48" fill="#FFFFFF" />
+          <path
+            d="M 22 28 L 78 28 L 78 45 L 58 45 L 58 82 L 42 82 L 42 45 L 22 45 Z"
+            fill="#000000"
+          />
+        </svg>
+      </div>
+      <div class="splash-content">
+        <div class="splash-logo-container">
+          <svg
+            class="splash-mbta-logo"
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle cx="50" cy="50" r="48" fill="#FFFFFF" />
+            <path
+              d="M 22 28 L 78 28 L 78 45 L 58 45 L 58 82 L 42 82 L 42 45 L 22 45 Z"
+              fill="#000000"
+            />
+          </svg>
+          <div class="splash-live-dot"></div>
+        </div>
+        <div class="splash-title-container">
+          <span class="splash-live-text">LIVE</span>
+          <h1>MBTA</h1>
+        </div>
+      </div>
+    </div>
+
+    <header class="top-bar">
+      <div class="header-left">
+        <div class="logo-container">
+          <svg
+            class="mbta-logo"
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle cx="50" cy="50" r="48" fill="#FFFFFF" />
+            <path
+              d="M 22 28 L 78 28 L 78 45 L 58 45 L 58 82 L 42 82 L 42 45 L 22 45 Z"
+              fill="#000000"
+            />
+          </svg>
+          <div class="live-dot"></div>
+        </div>
+        <div class="title-container">
+          <span class="live-text">LIVE</span>
+          <h1>MBTA</h1>
+        </div>
+      </div>
+      <div class="schedule-pill" id="schedulePill">
+        <span>First:</span> <span id="firstTrainTime">--:--</span> &nbsp;|&nbsp;
+        <span>Last:</span> <span id="lastTrainTime">--:--</span>
+      </div>
+    </header>
+
+    <div class="container">
+      <!-- Main Line Selector -->
+      <div class="selector-wrapper">
+        <select id="lineSelector" onchange="handleMainLineChange()">
+          <option value="Green">🟢 Green Line</option>
+          <option value="Red">🔴 Red Line</option>
+          <option value="Orange">🟠 Orange Line</option>
+          <option value="Blue">🔵 Blue Line</option>
+        </select>
+      </div>
+
+      <!-- Green Line Sub-Branch Buttons -->
+      <div id="greenSubSelector" class="sub-selector">
+        <button class="sub-btn" onclick="setGreenBranch('Green')">
+          Show All
+        </button>
+        <button class="sub-btn" onclick="setGreenBranch('Green-B')">B</button>
+        <button class="sub-btn" onclick="setGreenBranch('Green-C')">C</button>
+        <button class="sub-btn active" onclick="setGreenBranch('Green-D')">
+          D
+        </button>
+        <button class="sub-btn" onclick="setGreenBranch('Green-E')">E</button>
+      </div>
+
+      <!-- Interactive Map -->
+      <div class="card">
+        <h2>Live Track Map</h2>
+        <div id="map"></div>
+        <div id="map-legend"></div>
+      </div>
+
+      <!-- Stop Arrivals -->
+      <div class="card">
+        <h2 id="arrivals-header">Eliot Arrivals</h2>
+        <div class="segmented-control">
+          <div
+            class="segment-btn active"
+            id="btn-inbound"
+            onclick="setDirection(1)"
+          >
+            Inbound
+          </div>
+          <div class="segment-btn" id="btn-outbound" onclick="setDirection(0)">
+            Outbound
+          </div>
+        </div>
+        <div id="predictionsContainer">
+          <div style="color: var(--text-muted); font-size: 15px">
+            Loading live times...
+          </div>
+        </div>
+      </div>
+
+      <!-- Crowding Predictor -->
+      <div class="card">
+        <h2>Live Crowding (Next Train)</h2>
+        <div class="crowding-meta">
+          <span>Empty</span><span>Standing</span><span>Full</span>
+        </div>
+        <div class="crowding-track">
+          <div id="crowding-fill" class="crowding-fill"></div>
+        </div>
+        <div class="crowding-status">
+          <span id="crowding-status-text"></span><br />
+          <span
+            id="crowding-sub-text"
+            style="color: var(--text-muted); font-size: 14px"
+            >Fetching data...</span
+          >
+        </div>
+      </div>
+
+      <!-- Nested Service Alerts -->
+      <div class="card">
+        <h2>Service Alerts</h2>
+        <div id="alertsContainer">
+          <div style="color: var(--text-muted); font-size: 15px">
+            Checking for system alerts...
+          </div>
+        </div>
+      </div>
+
+      <!-- Settings / Admin Card Section -->
+      <div class="card settings-card" onclick="openAdminModal()">
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+          "
+        >
+          <div style="display: flex; align-items: center; gap: 12px">
+            <div class="settings-gear-icon">⚙️</div>
+            <div>
+              <div style="font-weight: 600; font-size: 16px; color: #ffffff">
+                Settings
+              </div>
+              <div
+                style="
+                  font-size: 13px;
+                  color: var(--text-muted);
+                  margin-top: 2px;
+                "
+              >
+                Notifications & admin controls
+              </div>
+            </div>
+          </div>
+          <span class="chevron" style="transform: rotate(0deg); font-size: 14px"
+            >▶</span
+          >
+        </div>
+      </div>
+
+      <!-- Copyright Footer -->
+      <div class="footer-copyright">&copy; Cornwell Trains 2026</div>
+    </div>
+
+    <!-- Admin Modal Overlay -->
+    <div id="adminModal" class="admin-modal-overlay">
+      <div class="admin-modal-content">
+        <div class="admin-modal-header">
+          <h3>Settings</h3>
+          <button class="admin-close-btn" onclick="closeAdminModal()">
+            &times;
+          </button>
+        </div>
+
+        <!-- Auth / Settings View (Unauthenticated - Notifications option lives here) -->
+        <div id="adminAuthView">
+          <div style="margin-bottom: 16px">
+            <div
+              style="
+                font-size: 13px;
+                font-weight: 600;
+                color: var(--text-muted);
+                margin-bottom: 8px;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+              "
+            >
+              Preferences
+            </div>
+            <button
+              onclick="requestNotificationPermission()"
+              style="
+                width: 100%;
+                padding: 12px;
+                border-radius: 10px;
+                background: var(--surface-highlight);
+                color: white;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                font-weight: 600;
+                cursor: pointer;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+              "
+            >
+              <span>Enable Notifications</span>
+              <span
+                id="notifStatusBadge"
+                style="font-size: 12px; color: var(--text-muted)"
+                >Check Status</span
+              >
+            </button>
+          </div>
+
+          <div
+            style="
+              border-top: 1px solid rgba(255, 255, 255, 0.1);
+              padding-top: 16px;
+            "
+          >
+            <div
+              style="
+                font-size: 13px;
+                font-weight: 600;
+                color: var(--text-muted);
+                margin-bottom: 8px;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+              "
+            >
+              Admin Login
+            </div>
+            <input
+              type="password"
+              id="adminPasswordInput"
+              placeholder="Enter admin password"
+              style="
+                width: 100%;
+                padding: 12px;
+                border-radius: 10px;
+                background-color: var(--surface-highlight);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                color: white;
+                font-size: 16px;
+                margin-bottom: 12px;
+                outline: none;
+              "
+            />
+            <button
+              onclick="verifyAdminPassword()"
+              style="
+                width: 100%;
+                padding: 12px;
+                border-radius: 10px;
+                background-color: var(--theme-color);
+                color: white;
+                border: none;
+                font-weight: 600;
+                font-size: 16px;
+                cursor: pointer;
+              "
+            >
+              Access Admin Panel
+            </button>
+            <p
+              id="adminErrorMsg"
+              style="
+                color: var(--alert-red);
+                font-size: 13px;
+                margin-top: 8px;
+                display: none;
+              "
+            ></p>
+          </div>
+        </div>
+
+        <!-- Dashboard View (Protected) -->
+        <div id="adminDashboardView" style="display: none">
+          <div
+            style="
+              background: rgba(0, 132, 61, 0.1);
+              border: 1px solid var(--theme-color);
+              padding: 12px;
+              border-radius: 8px;
+              margin-bottom: 16px;
+              font-size: 13px;
+              color: #e2e2e2;
+            "
+          >
+            🟢 <strong>Authenticated as Admin</strong><br />System controls and
+            cache management are active.
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 10px">
+            <button
+              onclick="clearShapeCache()"
+              style="
+                padding: 12px;
+                border-radius: 8px;
+                background: var(--surface-highlight);
+                color: white;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                font-weight: 600;
+                cursor: pointer;
+                text-align: left;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+              "
+            >
+              <span>Clear Shape Cache</span>
+              <span style="font-size: 12px; color: var(--text-muted)"
+                >Reset Polyline Data</span
+              >
+            </button>
+            <button
+              onclick="forceRefreshAll()"
+              style="
+                padding: 12px;
+                border-radius: 8px;
+                background: var(--surface-highlight);
+                color: white;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                font-weight: 600;
+                cursor: pointer;
+                text-align: left;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+              "
+            >
+              <span>Force Full Refresh</span>
+              <span style="font-size: 12px; color: var(--text-muted)"
+                >Reload API Feeds</span
+              >
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const API_KEY = "2a42aa5c1b3d44a380d30dab3eea5077";
+      function apiFetch(url) {
+        const separator = url.includes("?") ? "&" : "?";
+        return fetch(`${url}${separator}api_key=${API_KEY}`);
+      }
+
+      let currentRoute = "Green-D";
+      let currentDirection = 1;
+      const shapeCache = {};
+      let isAdminAuthenticated = false;
+
+      const routeData = {
+        Green: {
+          color: "#00843D",
+          stopId: "place-grnst",
+          stopName: "Park Street",
+          inDesc: "Inbound",
+          outDesc: "Outbound",
+          center: [42.35, -71.06],
+        },
+        "Green-B": {
+          color: "#00843D",
+          stopId: "place-bckhl",
+          stopName: "Boston College",
+          inDesc: "Inbound (Boston)",
+          outDesc: "Outbound (B)",
+          center: [42.34, -71.15],
+        },
+        "Green-C": {
+          color: "#00843D",
+          stopId: "place-ccivc",
+          stopName: "Cleveland Circle",
+          inDesc: "Inbound (Boston)",
+          outDesc: "Outbound (C)",
+          center: [42.34, -71.14],
+        },
+        "Green-D": {
+          color: "#00843D",
+          stopId: "place-eliot",
+          stopName: "Eliot",
+          inDesc: "Inbound (Boston)",
+          outDesc: "Outbound (Riverside)",
+          center: [42.33, -71.18],
+        },
+        "Green-E": {
+          color: "#00843D",
+          stopId: "place-hsnc",
+          stopName: "Heath Street",
+          inDesc: "Inbound (Boston)",
+          outDesc: "Outbound (E)",
+          center: [42.33, -71.1],
+        },
+        Red: {
+          color: "#DA291C",
+          stopId: "place-sstat",
+          stopName: "South Station",
+          inDesc: "Inbound (Alewife)",
+          outDesc: "Outbound (Braintree)",
+          center: [42.35, -71.05],
+        },
+        Orange: {
+          color: "#ED8B00",
+          stopId: "place-bbsta",
+          stopName: "Back Bay",
+          inDesc: "Inbound (Oak Grove)",
+          outDesc: "Outbound (Forest Hills)",
+          center: [42.34, -71.07],
+        },
+        Blue: {
+          color: "#003DA5",
+          stopId: "place-state",
+          stopName: "State Street",
+          inDesc: "Inbound (Bowdoin)",
+          outDesc: "Wonderland",
+          center: [42.36, -71.05],
+        },
+      };
+
+      const map = L.map("map", { zoomControl: false }).setView(
+        routeData["Green-D"].center,
+        13
+      );
+      L.tileLayer(
+        "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
+        { maxZoom: 19 }
+      ).addTo(map);
+
+      const trackLayers = L.layerGroup().addTo(map);
+      const vehicleLayers = L.layerGroup().addTo(map);
+
+      function toggleNested(element) {
+        element.parentElement.classList.toggle("open");
+      }
+
+      function openAdminModal() {
+        document.getElementById("adminModal").classList.add("active");
+        document.getElementById("adminPasswordInput").value = "";
+        document.getElementById("adminErrorMsg").style.display = "none";
+
+        // Check initial notification permission state on open
+        if ("Notification" in window) {
+          const badge = document.getElementById("notifStatusBadge");
+          if (Notification.permission === "granted") {
+            badge.innerText = "Enabled ✓";
+            badge.style.color = "var(--theme-color)";
+          } else if (Notification.permission === "denied") {
+            badge.innerText = "Blocked ✕";
+            badge.style.color = "var(--alert-red)";
+          } else {
+            badge.innerText = "Check Status";
+            badge.style.color = "var(--text-muted)";
+          }
         }
 
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        if (!isAdminAuthenticated) {
+          document.getElementById("adminAuthView").style.display = "block";
+          document.getElementById("adminDashboardView").style.display = "none";
+        } else {
+          document.getElementById("adminAuthView").style.display = "none";
+          document.getElementById("adminDashboardView").style.display = "block";
+        }
+      }
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+      function closeAdminModal() {
+        document.getElementById("adminModal").classList.remove("active");
+      }
+
+      function verifyAdminPassword() {
+        const pwd = document.getElementById("adminPasswordInput").value;
+        const err = document.getElementById("adminErrorMsg");
+        if (pwd === "luke2010") {
+          isAdminAuthenticated = true;
+          document.getElementById("adminAuthView").style.display = "none";
+          document.getElementById("adminDashboardView").style.display = "block";
+          err.style.display = "none";
+        } else {
+          err.innerText = "Incorrect password. Access denied.";
+          err.style.display = "block";
+        }
+      }
+
+      function clearShapeCache() {
+        for (let key in shapeCache) delete shapeCache[key];
+        drawMapTracks();
+        alert("Shape cache cleared and reloaded.");
+      }
+
+      function forceRefreshAll() {
+        updateVehicles();
+        fetchPredictions();
+        fetchAlerts();
+        fetchScheduleTimes();
+        alert("All feeds forcibly refreshed.");
+      }
+
+      function handleMainLineChange() {
+        const selectedVal = document.getElementById("lineSelector").value;
+        const subSelector = document.getElementById("greenSubSelector");
+
+        if (selectedVal === "Green") {
+          subSelector.style.display = "flex";
+          setGreenBranch("Green-D");
+        } else {
+          subSelector.style.display = "none";
+          switchRoute(selectedVal);
+        }
+      }
+
+      function setGreenBranch(branchRoute) {
+        const buttons = document.querySelectorAll(".sub-btn");
+        buttons.forEach((btn) => {
+          btn.classList.toggle(
+            "active",
+            btn.getAttribute("onclick").includes(`'${branchRoute}'`)
+          );
+        });
+        switchRoute(branchRoute);
+      }
+
+      function switchRoute(routeKey) {
+        currentRoute = routeKey;
+        const info = routeData[currentRoute];
+
+        document.documentElement.style.setProperty("--theme-color", info.color);
+        document.getElementById(
+          "arrivals-header"
+        ).innerText = `${info.stopName} Arrivals`;
+        document.getElementById("btn-inbound").innerText = info.inDesc;
+        document.getElementById("btn-outbound").innerText = info.outDesc;
+
+        drawMapTracks();
+        updateVehicles();
+        setDirection(currentDirection);
+        buildLegend();
+        fetchScheduleTimes();
+      }
+
+      function setDirection(dir) {
+        currentDirection = dir;
+        document
+          .getElementById("btn-inbound")
+          .classList.toggle("active", dir === 1);
+        document
+          .getElementById("btn-outbound")
+          .classList.toggle("active", dir === 0);
+        fetchPredictions();
+        fetchScheduleTimes();
+      }
+
+      async function fetchScheduleTimes() {
+        const info = routeData[currentRoute];
+        const todayStr = new Date().toISOString().split("T")[0];
+        const firstEl = document.getElementById("firstTrainTime");
+        const lastEl = document.getElementById("lastTrainTime");
+
+        firstEl.innerText = "--:--";
+        lastEl.innerText = "--:--";
+
+        try {
+          let routeParam =
+            currentRoute === "Green"
+              ? "Green-B,Green-C,Green-D,Green-E"
+              : currentRoute;
+          const resp = await apiFetch(
+            `https://api-v3.mbta.com/schedules?filter[stop]=${info.stopId}&filter[route]=${routeParam}&filter[direction_id]=${currentDirection}&filter[date]=${todayStr}&sort=departure_time`
+          );
+          const data = await resp.json();
+
+          if (data.data && data.data.length > 0) {
+            const formatTime = (isoString) => {
+              if (!isoString) return "--:--";
+              const d = new Date(isoString);
+              return d.toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+                hour12: true,
+              });
+            };
+
+            const firstTime = data.data[0].attributes.departure_time;
+            const lastTime =
+              data.data[data.data.length - 1].attributes.departure_time;
+
+            firstEl.innerText = formatTime(firstTime);
+            lastEl.innerText = formatTime(lastTime);
+          }
+        } catch (e) {
+          // Keep placeholder if error occurs
+        }
+      }
+
+      function decodePolyline(str) {
+        let index = 0,
+          lat = 0,
+          lng = 0,
+          coordinates = [];
+        while (index < str.length) {
+          let b,
+            shift = 0,
+            result = 0;
+          do {
+            b = str.charCodeAt(index++) - 63;
+            result |= (b & 0x1f) << shift;
+            shift += 5;
+          } while (b >= 0x20);
+          lat += result & 1 ? ~(result >> 1) : result >> 1;
+          shift = 0;
+          result = 0;
+          do {
+            b = str.charCodeAt(index++) - 63;
+            result |= (b & 0x1f) << shift;
+            shift += 5;
+          } while (b >= 0x20);
+          lng += result & 1 ? ~(result >> 1) : result >> 1;
+          coordinates.push([lat / 1e5, lng / 1e5]);
+        }
+        return coordinates;
+      }
+
+      function getParallelOffset(coordinates, distance) {
+        let offsetCoords = [];
+        for (let i = 0; i < coordinates.length; i++) {
+          let p1 = coordinates[i];
+          let p2 = coordinates[i + 1] || coordinates[i - 1] || p1;
+          let dLat = p2[0] - p1[0];
+          let dLng = p2[1] - p1[1];
+          let len = Math.sqrt(dLat * dLat + dLng * dLng);
+          if (len === 0) {
+            offsetCoords.push(p1);
+            continue;
+          }
+          let pLat = (-dLng / len) * distance;
+          let pLng = (dLat / len) * distance;
+          offsetCoords.push([p1[0] + pLat, p1[1] + pLng]);
+        }
+        return offsetCoords;
+      }
+
+      async function drawMapTracks() {
+        let routesToFetch =
+          currentRoute === "Green"
+            ? ["Green-B", "Green-C", "Green-D", "Green-E"]
+            : [currentRoute];
+        trackLayers.clearLayers();
+
+        for (let r of routesToFetch) {
+          let shapesData = shapeCache[r];
+          if (!shapesData) {
+            const resp = await apiFetch(
+              `https://api-v3.mbta.com/shapes?filter[route]=${r}`
+            );
+            const data = await resp.json();
+            shapesData = data.data;
+            shapeCache[r] = shapesData;
+          }
+
+          shapesData.forEach((shape) => {
+            let decoded = decodePolyline(shape.attributes.polyline);
+            let dir = shape.attributes.direction_id;
+
+            let offsetDistance = 0.00005;
+            if (dir === 1) {
+              decoded = getParallelOffset(decoded, -offsetDistance);
+            } else {
+              decoded = getParallelOffset(decoded, offsetDistance);
+            }
+
+            L.polyline(decoded, {
+              color: routeData[r].color,
+              weight: 4,
+              opacity: 0.95,
+            }).addTo(trackLayers);
+          });
+        }
+
+        if (trackLayers.getLayers().length > 0) {
+          map.setView(
+            routeData[currentRoute].center,
+            currentRoute === "Green" ? 12 : 13
+          );
+        }
+      }
+
+      function getTrainModel(route, carNumber) {
+        let car = parseInt(carNumber);
+        let baseKey = route.includes("Green") ? "Green" : route;
+
+        const lightPalettes = {
+          Green: { type7: "#66BB6A", type8: "#81C784", type9: "#A5D6A7" },
+          Red: { series1900: "#EF9A9A", crrc: "#FFCDD2", standard: "#FF8A80" },
+          Orange: { crrc: "#FFE0B2", standard: "#FFCC80" },
+          Blue: { standard: "#90CAF9" },
+        };
+
+        let palette = lightPalettes[baseKey] || lightPalettes["Blue"];
+
+        if (baseKey === "Green") {
+          if (car >= 3600 && car < 3800)
+            return { name: "Type 7", color: palette.type7 };
+          if (car >= 3800 && car < 3900)
+            return { name: "Type 8", color: palette.type8 };
+          if (car >= 3900) return { name: "Type 9", color: palette.type9 };
+          return { name: "Type 7", color: palette.type7 };
+        }
+        if (baseKey === "Red") {
+          if (car >= 1900 && car < 2100)
+            return { name: "1900 Series", color: palette.series1900 };
+          if (car >= 2100) return { name: "New CRRC", color: palette.crrc };
+          return { name: "Standard", color: palette.standard || palette.crrc };
+        }
+        if (baseKey === "Orange") {
+          if (car >= 1400) return { name: "New CRRC", color: palette.crrc };
+          return { name: "Standard", color: palette.standard || palette.crrc };
+        }
+        return { name: "Standard", color: palette.standard };
+      }
+
+      async function updateVehicles() {
+        let routesToFetch =
+          currentRoute === "Green"
+            ? ["Green-B", "Green-C", "Green-D", "Green-E"]
+            : [currentRoute];
+        vehicleLayers.clearLayers();
+
+        for (let r of routesToFetch) {
+          const resp = await apiFetch(
+            `https://api-v3.mbta.com/vehicles?filter[route]=${r}`
+          );
+          const data = await resp.json();
+
+          data.data.forEach((veh) => {
+            let lat = veh.attributes.latitude;
+            let lng = veh.attributes.longitude;
+            let carId = veh.attributes.label || veh.id;
+            let dir = veh.attributes.direction_id;
+
+            let model = getTrainModel(r, carId);
+            let borderRadius = dir === 1 ? "50%" : "4px";
+            let shapeLabel =
+              dir === 1 ? "Inbound (Circle)" : "Outbound (Square)";
+
+            let icon = L.divIcon({
+              html: `<div style="background-color: ${model.color}; width: 14px; height: 14px; border-radius: ${borderRadius}; border: 2px solid white; box-shadow: 0 0 6px rgba(0,0,0,0.8);"></div>`,
+              className: "",
+              iconSize: [14, 14],
+              iconAnchor: [7, 7],
+            });
+
+            let marker = L.marker([lat, lng], { icon: icon });
+            marker.bindPopup(
+              `<b>${r} • ${model.name}</b><br>Car #${carId}<br>${shapeLabel}`
+            );
+            vehicleLayers.addLayer(marker);
+          });
+        }
+      }
+
+      function buildLegend() {
+        const legend = document.getElementById("map-legend");
+        let isGreen = currentRoute.includes("Green");
+        let isRed = currentRoute === "Red";
+        let isOrange = currentRoute === "Orange";
+
+        let html = `<div class="legend-item"><div class="legend-line"></div> Dual Tracks (Inbound / Outbound)</div>`;
+
+        if (isGreen) {
+          html += `
+                    <div class="legend-section-title">Inbound Trains (Circles)</div>
+                    <div class="legend-row">
+                        <div class="legend-item"><div class="legend-dot" style="background:#66BB6A; border-radius:50%;"></div> Type 7</div>
+                        <div class="legend-item"><div class="legend-dot" style="background:#81C784; border-radius:50%;"></div> Type 8</div>
+                        <div class="legend-item"><div class="legend-dot" style="background:#A5D6A7; border-radius:50%;"></div> Type 9</div>
+                    </div>
+                    <div class="legend-section-title">Outbound Trains (Squares)</div>
+                    <div class="legend-row">
+                        <div class="legend-item"><div class="legend-dot" style="background:#66BB6A; border-radius:4px;"></div> Type 7</div>
+                        <div class="legend-item"><div class="legend-dot" style="background:#81C784; border-radius:4px;"></div> Type 8</div>
+                        <div class="legend-item"><div class="legend-dot" style="background:#A5D6A7; border-radius:4px;"></div> Type 9</div>
+                    </div>
+                `;
+        } else if (isRed) {
+          html += `
+                    <div class="legend-section-title">Inbound Trains (Circles)</div>
+                    <div class="legend-row">
+                        <div class="legend-item"><div class="legend-dot" style="background:#EF9A9A; border-radius:50%;"></div> 1900 Series</div>
+                        <div class="legend-item"><div class="legend-dot" style="background:#FFCDD2; border-radius:50%;"></div> New CRRC</div>
+                    </div>
+                    <div class="legend-section-title">Outbound Trains (Squares)</div>
+                    <div class="legend-row">
+                        <div class="legend-item"><div class="legend-dot" style="background:#EF9A9A; border-radius:4px;"></div> 1900 Series</div>
+                        <div class="legend-item"><div class="legend-dot" style="background:#FFCDD2; border-radius:4px;"></div> New CRRC</div>
+                    </div>
+                `;
+        } else if (isOrange) {
+          html += `
+                    <div class="legend-section-title">Inbound Trains (Circles)</div>
+                    <div class="legend-row">
+                        <div class="legend-item"><div class="legend-dot" style="background:#FFE0B2; border-radius:50%;"></div> New CRRC</div>
+                    </div>
+                    <div class="legend-section-title">Outbound Trains (Squares)</div>
+                    <div class="legend-row">
+                        <div class="legend-item"><div class="legend-dot" style="background:#FFE0B2; border-radius:4px;"></div> New CRRC</div>
+                    </div>
+                `;
+        } else {
+          html += `
+                    <div class="legend-section-title">Inbound Trains (Circles)</div>
+                    <div class="legend-row">
+                        <div class="legend-item"><div class="legend-dot" style="background:#90CAF9; border-radius:50%;"></div> Standard</div>
+                    </div>
+                    <div class="legend-section-title">Outbound Trains (Squares)</div>
+                    <div class="legend-row">
+                        <div class="legend-item"><div class="legend-dot" style="background:#90CAF9; border-radius:4px;"></div> Standard</div>
+                    </div>
+                `;
+        }
+
+        legend.innerHTML = html;
+      }
+
+      async function fetchPredictions() {
+        const info = routeData[currentRoute];
+        try {
+          let fetchRouteParam =
+            currentRoute === "Green"
+              ? "Green-B,Green-C,Green-D,Green-E"
+              : currentRoute;
+          const response = await apiFetch(
+            `https://api-v3.mbta.com/predictions?filter[stop]=${info.stopId}&filter[route]=${fetchRouteParam}&filter[direction_id]=${currentDirection}&include=vehicle`
+          );
+          const payload = await response.json();
+
+          const container = document.getElementById("predictionsContainer");
+          container.innerHTML = "";
+
+          const validPredictions = (payload.data || []).filter(
+            (p) =>
+              p.attributes.arrival_time &&
+              Math.round(
+                (new Date(p.attributes.arrival_time) - new Date()) / 60000
+              ) >= 0
+          );
+
+          if (validPredictions.length === 0) {
+            container.innerHTML =
+              '<div style="color: var(--text-muted); font-size: 15px;">No upcoming trains currently tracked.</div>';
+            updateCrowdingBar("UNKNOWN");
+            return;
+          }
+
+          let nextTrainVehicleId = null;
+
+          validPredictions.slice(0, 3).forEach((prediction, index) => {
+            const minutesAway = Math.round(
+              (new Date(prediction.attributes.arrival_time) - new Date()) /
+                60000
+            );
+            if (index === 0 && prediction.relationships?.vehicle?.data)
+              nextTrainVehicleId = prediction.relationships.vehicle.data.id;
+
+            const div = document.createElement("div");
+            div.className = "prediction";
+            div.innerHTML = `<span>${
+              currentDirection === 1 ? "Inbound" : "Outbound"
+            } Train</span> <span class="time-badge">${
+              minutesAway === 0 ? "Due" : minutesAway + " min"
+            }</span>`;
+            container.appendChild(div);
+          });
+
+          if (nextTrainVehicleId && payload.included) {
+            const vehicleData = payload.included.find(
+              (inc) => inc.type === "vehicle" && inc.id === nextTrainVehicleId
+            );
+            if (vehicleData && vehicleData.attributes.occupancy_status) {
+              updateCrowdingBar(vehicleData.attributes.occupancy_status, false);
+            } else updateCrowdingBar(generatePredictedCrowding(), true);
+          } else updateCrowdingBar(generatePredictedCrowding(), true);
+        } catch (error) {
+          updateCrowdingBar("UNKNOWN");
+        }
+      }
+
+      function generatePredictedCrowding() {
+        const hr = new Date().getHours();
+        if (hr >= 7 && hr <= 9)
+          return currentDirection === 1
+            ? "CRUSHED_STANDING_ROOM_ONLY"
+            : "MANY_SEATS_AVAILABLE";
+        if (hr >= 16 && hr <= 18)
+          return currentDirection === 1
+            ? "FEW_SEATS_AVAILABLE"
+            : "CRUSHED_STANDING_ROOM_ONLY";
+        return "FEW_SEATS_AVAILABLE";
+      }
+
+      function updateCrowdingBar(status, isPredicted = false) {
+        const statuses = {
+          MANY_SEATS_AVAILABLE: {
+            width: "25%",
+            color: "var(--theme-color)",
+            title: "Many Seats Available",
+            desc: "Plenty of space on the approaching train.",
+          },
+          FEW_SEATS_AVAILABLE: {
+            width: "50%",
+            color: "#9ACD32",
+            title: "Moderate Crowding",
+            desc: "Some seating left, but it is filling up.",
+          },
+          STANDING_ROOM_ONLY: {
+            width: "75%",
+            color: "var(--warning-yellow)",
+            title: "Standing Room Only",
+            desc: "You will likely need to stand.",
+          },
+          CRUSHED_STANDING_ROOM_ONLY: {
+            width: "90%",
+            color: "var(--warning-orange)",
+            title: "Crushed Standing Room",
+            desc: "Very crowded conditions. Expect a tight squeeze.",
+          },
+          FULL: {
+            width: "100%",
+            color: "var(--alert-red)",
+            title: "Train is Full",
+            desc: "You may need to wait for the next train.",
+          },
+          UNKNOWN: {
+            width: "0%",
+            color: "transparent",
+            title: "Data Unavailable",
+            desc: "Cannot predict train crowding at this time.",
+          },
+        };
+
+        const info = statuses[status] || statuses["UNKNOWN"];
+        document.getElementById("crowding-fill").style.width = info.width;
+        document.getElementById("crowding-fill").style.backgroundColor =
+          info.color === "transparent" ? "transparent" : info.color;
+
+        document.getElementById(
+          "crowding-status-text"
+        ).innerHTML = `<strong style="color: ${
+          info.color === "transparent" ? "var(--text-muted)" : info.color
+        };">${info.title}</strong>${
+          isPredicted
+            ? ' <span style="font-size:11px; background:#333; padding:2px 6px; border-radius:4px; color:#aaa;">PREDICTED</span>'
+            : ""
+        }`;
+        document.getElementById("crowding-sub-text").innerText = isPredicted
+          ? info.desc + " (Based on time & rush hour)"
+          : info.desc;
+      }
+
+      async function fetchAlerts() {
+        const container = document.getElementById("alertsContainer");
+        container.innerHTML =
+          '<div style="color: var(--text-muted); font-size: 15px;">Loading alerts...</div>';
+
+        try {
+          const resp = await apiFetch("https://api-v3.mbta.com/alerts");
+          const data = await resp.json();
+
+          let alertsByLine = {
+            "Green Line": {
+              "Branch B": [],
+              "Branch C": [],
+              "Branch D": [],
+              "Branch E": [],
+              "General Green": [],
+            },
+            "Red Line": { Main: [] },
+            "Orange Line": { Main: [] },
+            "Blue Line": { Main: [] },
+          };
+
+          let addedIds = {
+            "Green Line": {
+              "Branch B": new Set(),
+              "Branch C": new Set(),
+              "Branch D": new Set(),
+              "Branch E": new Set(),
+              "General Green": new Set(),
+            },
+            "Red Line": { Main: new Set() },
+            "Orange Line": { Main: new Set() },
+            "Blue Line": { Main: new Set() },
+          };
+
+          if (data.data) {
+            data.data.forEach((alert) => {
+              let alertId = alert.id;
+              let header =
+                alert.attributes.short_header || alert.attributes.header;
+              let desc =
+                alert.attributes.description ||
+                "No additional details provided.";
+              let alertObj = { alertId, header, desc };
+
+              let entities = alert.attributes.informed_entity || [];
+              let affectedRoutes = new Set();
+              entities.forEach((ent) => {
+                if (ent.route) affectedRoutes.add(ent.route);
+              });
+
+              let matchedGreen = false;
+              if (
+                affectedRoutes.has("Green-B") &&
+                !addedIds["Green Line"]["Branch B"].has(alertId)
+              ) {
+                alertsByLine["Green Line"]["Branch B"].push(alertObj);
+                addedIds["Green Line"]["Branch B"].add(alertId);
+                matchedGreen = true;
+              }
+              if (
+                affectedRoutes.has("Green-C") &&
+                !addedIds["Green Line"]["Branch C"].has(alertId)
+              ) {
+                alertsByLine["Green Line"]["Branch C"].push(alertObj);
+                addedIds["Green Line"]["Branch C"].add(alertId);
+                matchedGreen = true;
+              }
+              if (
+                affectedRoutes.has("Green-D") &&
+                !addedIds["Green Line"]["Branch D"].has(alertId)
+              ) {
+                alertsByLine["Green Line"]["Branch D"].push(alertObj);
+                addedIds["Green Line"]["Branch D"].add(alertId);
+                matchedGreen = true;
+              }
+              if (
+                affectedRoutes.has("Green-E") &&
+                !addedIds["Green Line"]["Branch E"].has(alertId)
+              ) {
+                alertsByLine["Green Line"]["Branch E"].push(alertObj);
+                addedIds["Green Line"]["Branch E"].add(alertId);
+                matchedGreen = true;
+              }
+              if (
+                !matchedGreen &&
+                (affectedRoutes.has("Green") ||
+                  Array.from(affectedRoutes).some((r) => r.startsWith("Green")))
+              ) {
+                if (!addedIds["Green Line"]["General Green"].has(alertId)) {
+                  alertsByLine["Green Line"]["General Green"].push(alertObj);
+                  addedIds["Green Line"]["General Green"].add(alertId);
+                }
+              }
+
+              if (
+                affectedRoutes.has("Red") &&
+                !addedIds["Red Line"]["Main"].has(alertId)
+              ) {
+                alertsByLine["Red Line"]["Main"].push(alertObj);
+                addedIds["Red Line"]["Main"].add(alertId);
+              }
+
+              if (
+                affectedRoutes.has("Orange") &&
+                !addedIds["Orange Line"]["Main"].has(alertId)
+              ) {
+                alertsByLine["Orange Line"]["Main"].push(alertObj);
+                addedIds["Orange Line"]["Main"].add(alertId);
+              }
+
+              if (
+                affectedRoutes.has("Blue") &&
+                !addedIds["Blue Line"]["Main"].has(alertId)
+              ) {
+                alertsByLine["Blue Line"]["Main"].push(alertObj);
+                addedIds["Blue Line"]["Main"].add(alertId);
+              }
+            });
+          }
+
+          let html = "";
+          let hasAnyAlerts = false;
+
+          for (let [lineName, branches] of Object.entries(alertsByLine)) {
+            let lineHasAlerts = false;
+            let branchHtml = "";
+
+            for (let [branchName, alertList] of Object.entries(branches)) {
+              if (alertList.length > 0) {
+                lineHasAlerts = true;
+                let alertItemsHtml = alertList
+                  .map(
+                    (a) => `
+                                <div class="alert-box">
+                                    <div class="alert-box-header" onclick="toggleNested(this)">
+                                        <span>${a.header}</span>
+                                        <span class="chevron">▼</span>
+                                    </div>
+                                    <div class="alert-box-desc">${a.desc.replace(
+                                      /\n/g,
+                                      "<br>"
+                                    )}</div>
+                                </div>
+                            `
+                  )
+                  .join("");
+
+                branchHtml += `
+                                <div class="alert-branch-item">
+                                    <div class="alert-branch-header" onclick="toggleNested(this)">
+                                        <span>${branchName}</span>
+                                        <span class="chevron">▼</span>
+                                    </div>
+                                    <div class="alert-branch-content">
+                                        ${alertItemsHtml}
+                                    </div>
+                                </div>
+                            `;
+              }
+            }
+
+            if (lineHasAlerts) {
+              hasAnyAlerts = true;
+              let lineBadgeColor = lineName.includes("Green")
+                ? "#00843D"
+                : lineName.includes("Red")
+                ? "#DA291C"
+                : lineName.includes("Orange")
+                ? "#ED8B00"
+                : "#003DA5";
+              html += `
+                            <div class="alert-line-item">
+                                <div class="alert-line-header" onclick="toggleNested(this)">
+                                    <div style="display:flex; align-items:center; gap:8px;">
+                                        <div style="width:10px; height:10px; border-radius:50%; background:${lineBadgeColor};"></div>
+                                        <span>${lineName}</span>
+                                    </div>
+                                    <span class="chevron">▼</span>
+                                </div>
+                                <div class="alert-line-content">
+                                    ${branchHtml}
+                                </div>
+                            </div>
+                        `;
+            }
+          }
+
+          if (!hasAnyAlerts) {
+            container.innerHTML =
+              '<div style="color: var(--text-muted); font-size: 15px;">✅ Good service. No current system alerts.</div>';
+          } else {
+            container.innerHTML = html;
+          }
+        } catch (e) {
+          container.innerHTML =
+            '<div style="color: var(--text-muted); font-size: 15px;">Unable to load alerts.</div>';
+        }
+      }
+
+      // Notification Permission & Polling Logic
+      function requestNotificationPermission() {
+        if (!("Notification" in window)) {
+          alert("This browser does not support desktop notifications.");
+          return;
+        }
+
+        Notification.requestPermission().then((permission) => {
+          const badge = document.getElementById("notifStatusBadge");
+          if (permission === "granted") {
+            badge.innerText = "Enabled ✓";
+            badge.style.color = "var(--theme-color)";
+            new Notification("MBTA Live", {
+              body: "Notifications are successfully enabled!",
+              icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAA7DAAAOwwHHb6hkAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3JnM508lAAAAWNJREFUWIXtlz1LAkEQhT9kF7AwtrYQQkQUf4CNglaCiP+AiI2NoJ3YmIg/gFWCtna2NhZCK4shsTCCDYkIAs7g7p1y2N1kM7Oz593Mzu7s0t2N8i9rW93sB7Y2+j5J36F4u0F6XN98RuvFfgq6Dvg7nL0h8T3/a2L8FjJmYtTfK/XN3l37e6gY4N21O643Y27q56E/a+C3P67cPyNn3u49B4N4wWn6L2r0mJjI8lS+lIeX0pI4+v3C2B4z6n3lW1sH8A96FwB2Gj0h8X5HhK88K1+x1vjA0f0F8+J5eX8Q4M5C4bS0C6zC1w1kQfW6zEwI0G2a+9CgEwYJjX4F38c8v2+p03cT3A58Q4N5qWwM3JqWw0zQO2w7VbF/wA+1F8gZ6h4K/QfH1Jg38Y6fW3DAP0Qv2K8gV2y3/J3wX3f5H89Jg16N4J1G1j2G2f+X2L/558YJjK6vX3P+jKj2vQ6XfV+Jv6f+vP+Y39f1c8jXv8AAAAASUVORK5CYII=",
+            });
+          } else {
+            badge.innerText = "Blocked ✕";
+            badge.style.color = "var(--alert-red)";
+          }
+        });
+      }
+
+      function sendSystemNotification(title, message) {
+        if (window.Notification && Notification.permission === "granted") {
+          new Notification(title, {
+            body: message,
+            icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAA7DAAAOwwHHb6hkAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3JnM508lAAAAWNJREFUWIXtlz1LAkEQhT9kF7AwtrYQQkQUf4CNglaCiP+AiI2NoJ3YmIg/gFWCtna2NhZCK4shsTCCDYkIAs7g7p1y2N1kM7Oz593Mzu7s0t2N8i9rW93sB7Y2+j5J36F4u0F6XN98RuvFfgq6Dvg7nL0h8T3/a2L8FjJmYtTfK/XN3l37e6gY4N21O643Y27q56E/a+C3P67cPyNn3u49B4N4wWn6L2r0mJjI8lS+lIeX0pI4+v3C2B4z6n3lW1sH8A96FwB2Gj0h8X5HhK88K1+x1vjA0f0F8+J5eX8Q4M5C4bS0C6zC1w1kQfW6zEwI0G2a+9CgEwYJjX4F38c8v2+p03cT3A58Q4N5qWwM3JqWw0zQO2w7VbF/wA+1F8gZ6h4K/QfH1Jg38Y6fW3DAP0Qv2K8gV2y3/J3wX3f5H89Jg16N4J1G1j2G2f+X2L/558YJjK6vX3P+jKj2vQ6XfV+Jv6f+vP+Y39f1c8jXv8AAAAASUVORK5CYII=",
+          });
+        }
+      }
+
+      let notifiedAlerts = new Set();
+
+      async function checkGreenLineDAlerts() {
+        try {
+          const response = await apiFetch(
+            "https://api-v3.mbta.com/alerts?filter[route]=Green-D"
+          );
+          const data = await response.json();
+
+          if (data && data.data) {
+            data.data.forEach((alert) => {
+              const alertId = alert.id;
+              if (!notifiedAlerts.has(alertId)) {
+                notifiedAlerts.add(alertId);
+                sendSystemNotification(
+                  "Service Alert",
+                  "Green Line D Service Alert"
+                );
+              }
+            });
+          }
+        } catch (error) {
+          console.error("Failed to check alerts:", error);
+        }
+      }
+
+      setInterval(checkGreenLineDAlerts, 60000);
+
+      window.onload = () => {
+        // Dismiss splash screen smoothly after animation finishes
+        setTimeout(() => {
+          const splash = document.getElementById("splash-screen");
+          if (splash) {
+            splash.classList.add("fade-out");
+            setTimeout(() => splash.remove(), 600);
+          }
+        }, 1900);
+
+        document.getElementById("lineSelector").value = "Green";
+        document.getElementById("greenSubSelector").style.display = "flex";
+        setGreenBranch("Green-D");
+        fetchAlerts();
+        setInterval(() => {
+          updateVehicles();
+          fetchPredictions();
+          fetchAlerts();
+        }, 30000);
+      };
+    </script>
+  </body>
+</html>
             margin: 0; padding: 0; padding-bottom: 40px;
         }
 
