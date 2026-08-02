@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <link rel="manifest" href="/manifest.json" />
     <meta charset="UTF-8" />
     <meta
       name="viewport"
@@ -791,7 +792,7 @@
             <div class="settings-gear-icon">⚙️</div>
             <div>
               <div style="font-weight: 600; font-size: 16px; color: #ffffff">
-                Admin Settings
+                Settings
               </div>
               <div
                 style="
@@ -800,7 +801,7 @@
                   margin-top: 2px;
                 "
               >
-                Manage app configuration & data
+                Notifications & admin controls
               </div>
             </div>
           </div>
@@ -818,64 +819,112 @@
     <div id="adminModal" class="admin-modal-overlay">
       <div class="admin-modal-content">
         <div class="admin-modal-header">
-          <h3>Admin Panel</h3>
+          <h3>Settings</h3>
           <button class="admin-close-btn" onclick="closeAdminModal()">
             &times;
           </button>
         </div>
 
-        <!-- Password Screen -->
+        <!-- Auth / Settings View (Unauthenticated - Notifications option lives here) -->
         <div id="adminAuthView">
-          <p
+          <div style="margin-bottom: 16px">
+            <div
+              style="
+                font-size: 13px;
+                font-weight: 600;
+                color: var(--text-muted);
+                margin-bottom: 8px;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+              "
+            >
+              Preferences
+            </div>
+            <button
+              onclick="requestNotificationPermission()"
+              style="
+                width: 100%;
+                padding: 12px;
+                border-radius: 10px;
+                background: var(--surface-highlight);
+                color: white;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                font-weight: 600;
+                cursor: pointer;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+              "
+            >
+              <span>Enable Notifications</span>
+              <span
+                id="notifStatusBadge"
+                style="font-size: 12px; color: var(--text-muted)"
+                >Check Status</span
+              >
+            </button>
+          </div>
+
+          <div
             style="
-              color: var(--text-muted);
-              font-size: 14px;
-              margin-bottom: 16px;
+              border-top: 1px solid rgba(255, 255, 255, 0.1);
+              padding-top: 16px;
             "
           >
-            Enter your admin password to access system controls.
-          </p>
-          <input
-            type="password"
-            id="adminPasswordInput"
-            placeholder="Password"
-            style="
-              width: 100%;
-              padding: 14px;
-              border-radius: 10px;
-              background-color: var(--surface-highlight);
-              border: 1px solid rgba(255, 255, 255, 0.1);
-              color: white;
-              font-size: 16px;
-              margin-bottom: 12px;
-              outline: none;
-            "
-          />
-          <button
-            onclick="verifyAdminPassword()"
-            style="
-              width: 100%;
-              padding: 14px;
-              border-radius: 10px;
-              background-color: var(--theme-color);
-              color: white;
-              border: none;
-              font-weight: 600;
-              font-size: 16px;
-              cursor: pointer;
-            "
-          >
-            Access Panel
-          </button>
-          <p
-            id="adminErrorMsg"
-            style="
-              color: var(--alert-red);
-              font-size: 13px;
-              margin-top: 8px;
-              display: none;
-            "
-          ></p>
+            <div
+              style="
+                font-size: 13px;
+                font-weight: 600;
+                color: var(--text-muted);
+                margin-bottom: 8px;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+              "
+            >
+              Admin Login
+            </div>
+            <input
+              type="password"
+              id="adminPasswordInput"
+              placeholder="Enter admin password"
+              style="
+                width: 100%;
+                padding: 12px;
+                border-radius: 10px;
+                background-color: var(--surface-highlight);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                color: white;
+                font-size: 16px;
+                margin-bottom: 12px;
+                outline: none;
+              "
+            />
+            <button
+              onclick="verifyAdminPassword()"
+              style="
+                width: 100%;
+                padding: 12px;
+                border-radius: 10px;
+                background-color: var(--theme-color);
+                color: white;
+                border: none;
+                font-weight: 600;
+                font-size: 16px;
+                cursor: pointer;
+              "
+            >
+              Access Admin Panel
+            </button>
+            <p
+              id="adminErrorMsg"
+              style="
+                color: var(--alert-red);
+                font-size: 13px;
+                margin-top: 8px;
+                display: none;
+              "
+            ></p>
+          </div>
         </div>
 
         <!-- Dashboard View (Protected) -->
@@ -935,30 +984,6 @@
               <span>Force Full Refresh</span>
               <span style="font-size: 12px; color: var(--text-muted)"
                 >Reload API Feeds</span
-              >
-            </button>
-            <button
-              onclick="requestNotificationPermission()"
-              style="
-                padding: 12px;
-                border-radius: 8px;
-                background: var(--surface-highlight);
-                color: white;
-                border: 1px solid rgba(255, 255, 255, 0.1);
-                font-weight: 600;
-                cursor: pointer;
-                text-align: left;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-top: 10px;
-              "
-            >
-              <span>Enable Notifications</span>
-              <span
-                id="notifStatusBadge"
-                style="font-size: 12px; color: var(--text-muted)"
-                >Check Status</span
               >
             </button>
           </div>
@@ -1065,6 +1090,22 @@
         document.getElementById("adminModal").classList.add("active");
         document.getElementById("adminPasswordInput").value = "";
         document.getElementById("adminErrorMsg").style.display = "none";
+
+        // Check initial notification permission state on open
+        if ("Notification" in window) {
+          const badge = document.getElementById("notifStatusBadge");
+          if (Notification.permission === "granted") {
+            badge.innerText = "Enabled ✓";
+            badge.style.color = "var(--theme-color)";
+          } else if (Notification.permission === "denied") {
+            badge.innerText = "Blocked ✕";
+            badge.style.color = "var(--alert-red)";
+          } else {
+            badge.innerText = "Check Status";
+            badge.style.color = "var(--text-muted)";
+          }
+        }
+
         if (!isAdminAuthenticated) {
           document.getElementById("adminAuthView").style.display = "block";
           document.getElementById("adminDashboardView").style.display = "none";
@@ -1766,27 +1807,7 @@
         }
       }
 
-      window.onload = () => {
-        // Dismiss splash screen smoothly after animation finishes
-        setTimeout(() => {
-          const splash = document.getElementById("splash-screen");
-          if (splash) {
-            splash.classList.add("fade-out");
-            setTimeout(() => splash.remove(), 600);
-          }
-        }, 1900);
-
-        document.getElementById("lineSelector").value = "Green";
-        document.getElementById("greenSubSelector").style.display = "flex";
-        setGreenBranch("Green-D");
-        fetchAlerts();
-        setInterval(() => {
-          updateVehicles();
-          fetchPredictions();
-          fetchAlerts();
-        }, 30000);
-      };
-      // 1. Request browser permission for push/web notifications
+      // Notification Permission & Polling Logic
       function requestNotificationPermission() {
         if (!("Notification" in window)) {
           alert("This browser does not support desktop notifications.");
@@ -1809,7 +1830,6 @@
         });
       }
 
-      // 2. Trigger system notification
       function sendSystemNotification(title, message) {
         if (window.Notification && Notification.permission === "granted") {
           new Notification(title, {
@@ -1819,7 +1839,6 @@
         }
       }
 
-      // 3. Track alerts and fire notification for Green Line D
       let notifiedAlerts = new Set();
 
       async function checkGreenLineDAlerts() {
@@ -1846,8 +1865,28 @@
         }
       }
 
-      // Automatically poll for Green Line D alerts every 60 seconds
       setInterval(checkGreenLineDAlerts, 60000);
+
+      window.onload = () => {
+        // Dismiss splash screen smoothly after animation finishes
+        setTimeout(() => {
+          const splash = document.getElementById("splash-screen");
+          if (splash) {
+            splash.classList.add("fade-out");
+            setTimeout(() => splash.remove(), 600);
+          }
+        }, 1900);
+
+        document.getElementById("lineSelector").value = "Green";
+        document.getElementById("greenSubSelector").style.display = "flex";
+        setGreenBranch("Green-D");
+        fetchAlerts();
+        setInterval(() => {
+          updateVehicles();
+          fetchPredictions();
+          fetchAlerts();
+        }, 30000);
+      };
     </script>
   </body>
 </html>
